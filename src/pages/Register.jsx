@@ -5,12 +5,35 @@ import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/regi.avif";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-import { Box, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import AuthHeader from "../components/AuthHeader";
 import AuthImage from "../components/AuthImage";
 import { Formik } from "formik";
+import * as Yup from "yup";
+import RegisterForm from "../components/RegisterForm";
 
 const Register = () => {
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(5, "Kullanıcı adı 5 karakterden küçük olamaz")
+      .max(50, "Too Long!")
+      .required("Required"),
+    firstName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    lastName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    email: Yup.string().email("Invalid email").required("Bu alan zorunludur"),
+    password: Yup.string()
+      .min(8, "Password 8 kararkterden az olamaz")
+      .matches(/[a-z]/, "Şifre küçük harf içermelidir")
+      .matches(/[A-Z]/, "Şifre büyük harf içermelidir")
+      .matches(/\d+/, "Şifre sayısal karakter içermelidir.")
+      .matches(/[@$?!%&*-_]+/, "Özel karakter içermelidir(@$?!%&*)"),
+  });
   return (
     <Container maxWidth="lg">
       <Grid
@@ -53,84 +76,12 @@ const Register = () => {
               email: "",
               password: "",
             }}
-            validate={{}}
-            onSubmit={{}}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-              /* and other goodies */
-            }) => (<form action="">
-              <TextField
-                name="username"
-                label="Username"
-                variant="outlined"
-                fullWidth
-                value={values.username}
-                onChange={handleChange}
-                helperText={touched.username && errors.username} //validationda verdiğimiz kalıba uymazsa rengi errora çevirmesi için error attribute ı benden false/true degeri bekliyor ondan dolayı daha sağlıklı olması için boolean deger döndürüyoruz.
-                // touched da kullanıcının inputa tıklayıp tıklamadığını yakalıyor
-                error={touched.username && errors.username}
-                onBlur={handleBlur} // kullanıcının input alanından ayrıldığını yaklayan event
-                margin="normal"
-              />
-              <TextField
-                name="firstName"
-                label="First Name"
-                variant="outlined"
-                fullWidth
-                value={values.firstName}
-                onChange={handleChange}
-                helperText={touched.firstName && errors.firstName}
-                error={touched.firstName && errors.firstName}
-                onBlur={handleBlur} 
-                margin="normal"
-              />
-              <TextField
-                name="lastName"
-                label="Last Name"
-                variant="outlined"
-                fullWidth
-                value={values.lastName}
-                onChange={handleChange}
-                helperText={touched.lastName && errors.lastName}
-                error={touched.lastName && errors.lastName}
-                onBlur={handleBlur} 
-                margin="normal"
-              />
-              <TextField
-                name="email"
-                label="E-Mail"
-                variant="outlined"
-                fullWidth
-                value={values.email}
-                onChange={handleChange}
-                helperText={touched.email && errors.email}
-                error={touched.email && errors.email}
-                onBlur={handleBlur} 
-                margin="normal"
-                type="email"
-              />
-              <TextField
-                name="password"
-                label="Password"
-                variant="outlined"
-                fullWidth
-                value={values.password}
-                onChange={handleChange}
-                helperText={touched.password && errors.password}
-                error={touched.password && errors.password}
-                onBlur={handleBlur} 
-                margin="normal"
-                type="password"
-              />
-            </form>)}
-          </Formik>
+            validationSchema={SignupSchema}
+            onSubmit={(values)=>{
+              console.log(values)
+            }}
+            component={(props)=>(<RegisterForm {...props}/>)}
+          />
           <Box sx={{ textAlign: "center", mt: 2, color: "secondary.main" }}>
             <Link to="/">Already have an account? Sign in</Link>
           </Box>
