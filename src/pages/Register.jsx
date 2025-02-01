@@ -5,9 +5,10 @@ import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/regi.avif";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import AuthHeader from "../components/AuthHeader";
 import AuthImage from "../components/AuthImage";
+import { Formik } from "formik";
 
 const Register = () => {
   return (
@@ -43,13 +44,99 @@ const Register = () => {
           >
             Register
           </Typography>
-
-          <Box sx={{ textAlign: "center", mt: 2, color:"secondary.main" }}>
+          {/* //! Formik yapısı */}
+          <Formik
+            initialValues={{
+              username: "",
+              firstName: "",
+              lastName: "",
+              email: "",
+              password: "",
+            }}
+            validate={{}}
+            onSubmit={{}}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+              /* and other goodies */
+            }) => (<form action="">
+              <TextField
+                name="username"
+                label="Username"
+                variant="outlined"
+                fullWidth
+                value={values.username}
+                onChange={handleChange}
+                helperText={touched.username && errors.username} //validationda verdiğimiz kalıba uymazsa rengi errora çevirmesi için error attribute ı benden false/true degeri bekliyor ondan dolayı daha sağlıklı olması için boolean deger döndürüyoruz.
+                // touched da kullanıcının inputa tıklayıp tıklamadığını yakalıyor
+                error={touched.username && errors.username}
+                onBlur={handleBlur} // kullanıcının input alanından ayrıldığını yaklayan event
+                margin="normal"
+              />
+              <TextField
+                name="firstName"
+                label="First Name"
+                variant="outlined"
+                fullWidth
+                value={values.firstName}
+                onChange={handleChange}
+                helperText={touched.firstName && errors.firstName}
+                error={touched.firstName && errors.firstName}
+                onBlur={handleBlur} 
+                margin="normal"
+              />
+              <TextField
+                name="lastName"
+                label="Last Name"
+                variant="outlined"
+                fullWidth
+                value={values.lastName}
+                onChange={handleChange}
+                helperText={touched.lastName && errors.lastName}
+                error={touched.lastName && errors.lastName}
+                onBlur={handleBlur} 
+                margin="normal"
+              />
+              <TextField
+                name="email"
+                label="E-Mail"
+                variant="outlined"
+                fullWidth
+                value={values.email}
+                onChange={handleChange}
+                helperText={touched.email && errors.email}
+                error={touched.email && errors.email}
+                onBlur={handleBlur} 
+                margin="normal"
+                type="email"
+              />
+              <TextField
+                name="password"
+                label="Password"
+                variant="outlined"
+                fullWidth
+                value={values.password}
+                onChange={handleChange}
+                helperText={touched.password && errors.password}
+                error={touched.password && errors.password}
+                onBlur={handleBlur} 
+                margin="normal"
+                type="password"
+              />
+            </form>)}
+          </Formik>
+          <Box sx={{ textAlign: "center", mt: 2, color: "secondary.main" }}>
             <Link to="/">Already have an account? Sign in</Link>
           </Box>
         </Grid>
 
-    <AuthImage image={image} />
+        <AuthImage image={image} />
       </Grid>
     </Container>
   );
