@@ -11,15 +11,7 @@ import AuthHeader from "../components/AuthHeader";
 import AuthImage from "../components/AuthImage";
 import { Formik } from "formik";
 
-const Login = ({
-  values,
-  errors,
-  touched,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  /* and other goodies */
-}) => {
+const LoginPage = () => {
   const theme = useTheme();
 
   return (
@@ -55,42 +47,52 @@ const Login = ({
               password: "",
             }}
             validate={{}}
-            onSubmit={(values)=>{
-              console.log(values)
+            onSubmit={(values) => {
+              console.log(values);
             }}
           >
-            <form onSubmit={handleSubmit}>
-              <TextField
-                name="email"
-                label="E-Mail"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                required
-                type="email"
-              />
-              <TextField
-                name="password"
-                label="Password"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="password"
-                required
-              />
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{ background: "black" }}
-                type="submit"
-              >
-                Submit
-              </Button>
-            </form>
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              /* and other goodies */
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  name="email"
+                  label="E-Mail"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  type="email"
+                />
+                <TextField
+                  name="password"
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="password"
+                  required
+                />
+                <Button
+                  variant="contained"
+                  fullWidth
+                  sx={{ background: "black" }}
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </form>
+            )}
           </Formik>
 
           <Box sx={{ textAlign: "center", mt: 2, color: "secondary.main" }}>
@@ -117,4 +119,4 @@ const Login = ({
   );
 };
 
-export default Login;
+export default LoginPage;
