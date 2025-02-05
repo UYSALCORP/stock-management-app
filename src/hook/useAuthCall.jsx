@@ -32,8 +32,24 @@ const useAuthCall = () => {
         } catch (error) {
             dispatch(fetchFail())
         }
-    }
-  return {register, logout}
+    };
+
+    const login = async (userInfo) => {
+        dispatch(fetchStart())
+        try {
+          const { data } = await axios.post(
+            "https://18142.fullstack.clarusway.com/auth/login",
+            userInfo
+          );
+          console.log("Loginde data",data)
+          dispatch(loginSuccess(data))
+          navigate("/stock")
+        } catch (error) {
+            dispatch(fetchFail())
+            
+        }
+      };
+  return {register, logout, login}
 };
 
 export default useAuthCall

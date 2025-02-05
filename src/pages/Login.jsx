@@ -1,6 +1,5 @@
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import { Button, TextField, useTheme } from "@mui/material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -10,10 +9,20 @@ import { Link } from "react-router-dom";
 import AuthHeader from "../components/AuthHeader";
 import AuthImage from "../components/AuthImage";
 import { Formik } from "formik";
+import useAuthCall from "../hook/useAuthCall";
+import LoginForm from "../components/LoginForm";
+import * as Yup from "yup";
+const Login = () => {
+  const { login } = useAuthCall();
 
-const LoginPage = () => {
-  const theme = useTheme();
-
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(5, "Kullanıcı adı 5 karakterden az olamaz")
+      .max(50, "Kullanıcı adı 50 karakterden fazla olamaz")
+      .required("Kullanıcı adı zorunludur"),
+      password: Yup.string()
+      .required("password zorunludur")
+  });
   return (
     <Container maxWidth="lg">
       <Grid
@@ -41,76 +50,25 @@ const LoginPage = () => {
           <Typography variant="h4" align="center" mb={4} color="secondary.main">
             SIGN IN
           </Typography>
+
           <Formik
-            initialValues={{
-              email: "",
-              password: "",
+            initialValues={{ username: "", password: "" }}
+            validationSchema={SignupSchema}
+            onSubmit={(values, actions) => {
+              login(values);
+              console.log(values,"loginiçinde")
+              actions.resetForm();
+              //! Submit işlemi yapıldı, setSubmitting e.preventDefault()'u yapıyor.
+              actions.setSubmitting(false);
             }}
-            validate={{}}
-            onSubmit={(values) => {
-              console.log(values);
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              /* and other goodies */
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <TextField
-                  name="email"
-                  label="E-Mail"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  type="email"
-                />
-                <TextField
-                  name="password"
-                  label="Password"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="password"
-                  required
-                />
-                <Button
-                  variant="contained"
-                  fullWidth
-                  sx={{ background: "black" }}
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </form>
-            )}
-          </Formik>
+            component={(props) => <LoginForm {...props} />}> </Formik>
+              
 
           <Box sx={{ textAlign: "center", mt: 2, color: "secondary.main" }}>
-            <Link to="/register">Don't have an account? Sign Up</Link>
+            <Link to="/register">
+              Don't have an account? Sign Up
+            </Link>
           </Box>
-          <Typography
-            variant="body2"
-            color="secondary.main"
-            align="center"
-            sx={{ mt: 4 }}
-          >
-            {"Copyright © "}
-            <Link color="inherit" href="https://www.github.com/UYSALCORP">
-              UYSALCORP
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-          </Typography>
         </Grid>
 
         <AuthImage image={image} />
@@ -119,4 +77,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
