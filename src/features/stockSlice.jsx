@@ -21,6 +21,7 @@ const stockSlice = createSlice({
             state.loading = false;
             state.error = true;
           },
+          //! Statik olan yapımızı dinamikleştirdik.
           // firmSuccess: (state, {payload}) => {
           //   state.firms = payload.data;
           //   state.loading = false;
@@ -34,5 +35,5 @@ const stockSlice = createSlice({
     }
 })
 
-export const {fetchFail, fetchStart, firmSuccess, stockSuccess} = stockSlice.actions;
+export const {fetchFail, fetchStart, stockSuccess} = stockSlice.actions;
 export default stockSlice.reducer;

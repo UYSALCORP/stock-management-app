@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, firmSuccess, stockSuccess } from "../features/stockSlice";
+import { fetchFail, fetchStart, stockSuccess } from "../features/stockSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import useAxios from "./useAxios";
@@ -10,7 +10,7 @@ const useStockCall = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const {axiosWithToken} = useAxios()
 
-  //! useAxios Hook'u oluşturup axiosWithToken ile değiştirdim.
+  //! 2- useAxios Hook'u oluşturup axiosWithToken ile değiştirdim.
 //   const { token } = useSelector((state) => state.auth);
 
 //   const getFirms = async () => {
@@ -27,7 +27,7 @@ const useStockCall = () => {
 //       dispatch(fetchFail());
 //     }
 //   };
-
+//! 1- En eski yapı
 // const getFirms = async () => {
 //     dispatch(fetchStart());
 //     try {
@@ -37,7 +37,7 @@ const useStockCall = () => {
 //       dispatch(fetchFail());
 //     }
 //   };
-
+//! 3- Güncel yapı, Data çekme
   const getStockData = async (url) => {
     dispatch(fetchStart());
     try {
@@ -48,7 +48,29 @@ const useStockCall = () => {
     }
   };
 
-  return { getStockData };
+//! Data silme, Delete
+  const deleteStockData = async (url, id) =>{
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.delete(`${url}/${id}`)
+      getStockData(url)
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  }
+
+//! Data ekleme, Create
+  const createStockData = async (url, info) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.post(url, info)
+      getStockData(url)
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  }
+
+  return { getStockData, deleteStockData, createStockData };
 };
 
 export default useStockCall;

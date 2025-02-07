@@ -1,14 +1,19 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useStockCall from "../hook/useStockCall";
 import FirmsCard from "../components/Cards/FirmsCard";
 import { Button, Container, Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
+import FirmModal from "../components/Modal/FirmModal";
 
 const Firms = () => {
   const { getFirms, getStockData } = useStockCall();
   const { firms } = useSelector((state) => state.stock);
-  console.log(firms);
+
+    //! MuiModal'ı bir üstü olan Firms component'ine taşıdık.
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
   useEffect(() => {
     getStockData("firms");
@@ -18,7 +23,8 @@ const Firms = () => {
       <Typography variant="h4" color="secondary.second" align="center">
         Firms
       </Typography>
-      <Button variant="contained">NEW FIRM</Button>
+      
+      <Button variant="contained" onClick={handleOpen}>NEW FIRM</Button>
       <Grid container spacing={2} mt={2}>
         {firms.map((firm, index) => (
           <Grid item xs={12} md={6} lg={4} xl={3} key={index}>
@@ -26,6 +32,7 @@ const Firms = () => {
           </Grid>
         ))}
       </Grid>
+      <FirmModal open={open} handleClose={handleClose} />
     </Container>
   );
 };
