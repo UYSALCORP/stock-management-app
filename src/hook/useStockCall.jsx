@@ -8,8 +8,8 @@ import useAxios from "./useAxios";
 const useStockCall = () => {
   const dispatch = useDispatch();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-//   const { token } = useSelector((state) => state.auth);
   const {axiosWithToken} = useAxios()
+//   const { token } = useSelector((state) => state.auth);
 
 //   const getFirms = async () => {
 //     dispatch(fetchStart());
