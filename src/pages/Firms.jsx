@@ -1,19 +1,33 @@
-import React from 'react'
-import { useEffect } from 'react'
-import useStockCall from '../hook/useStockCall'
-import FirmsCard from '../components/FirmsCard'
+import React from "react";
+import { useEffect } from "react";
+import useStockCall from "../hook/useStockCall";
+import FirmsCard from "../components/Cards/FirmsCard";
+import { Button, Container, Typography, Grid } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const Firms = () => {
-  const {getFirms} = useStockCall()
+  const { getFirms, getStockData } = useStockCall();
+  const { firms } = useSelector((state) => state.stock);
+  console.log(firms);
 
-  useEffect(()=>{
-    getFirms()
-  },[])
+  useEffect(() => {
+    getStockData("firms");
+  }, []);
   return (
-    <div>Firms
-      <FirmsCard/>
-    </div>
-  )
-}
+    <Container>
+      <Typography variant="h4" color="secondary.second" align="center">
+        Firms
+      </Typography>
+      <Button variant="contained">NEW FIRM</Button>
+      <Grid container spacing={2} mt={2}>
+        {firms.map((firm, index) => (
+          <Grid item xs={12} md={6} lg={4} xl={3} key={index}>
+            <FirmsCard {...firm}/>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  );
+};
 
-export default Firms
+export default Firms;

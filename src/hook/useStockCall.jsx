@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, firmSuccess } from "../features/stockSlice";
+import { fetchFail, fetchStart, firmSuccess, stockSuccess } from "../features/stockSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import useAxios from "./useAxios";
@@ -9,6 +9,8 @@ const useStockCall = () => {
   const dispatch = useDispatch();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const {axiosWithToken} = useAxios()
+
+  //! useAxios Hook'u oluşturup axiosWithToken ile değiştirdim.
 //   const { token } = useSelector((state) => state.auth);
 
 //   const getFirms = async () => {
@@ -26,18 +28,27 @@ const useStockCall = () => {
 //     }
 //   };
 
-const getFirms = async () => {
+// const getFirms = async () => {
+//     dispatch(fetchStart());
+//     try {
+//       const { data } = await axiosWithToken.get("firms")
+//       dispatch(firmSuccess(data));
+//     } catch (error) {
+//       dispatch(fetchFail());
+//     }
+//   };
+
+  const getStockData = async (url) => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken.get(firms)
-      console.log(data);
-      dispatch(firmSuccess(data));
+      const { data } = await axiosWithToken.get(`${url}`)
+      dispatch(stockSuccess({data, url}));
     } catch (error) {
       dispatch(fetchFail());
     }
   };
 
-  return { getFirms };
+  return { getStockData };
 };
 
 export default useStockCall;
