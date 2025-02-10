@@ -10,7 +10,8 @@ const stockSlice = createSlice({
         brands:[],
         purchases:[],
         sales:[],
-        products:[]
+        products:[],
+        categories:[]
     },
     reducers:{
         fetchStart: (state) => {

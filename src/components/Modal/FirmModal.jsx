@@ -49,6 +49,7 @@ export default function FirmModal({ open, handleClose, initialState }) {
     }
     handleClose();
   };
+  // console.log(updateStockData)
 
   useEffect(() => {
     setInfo(initialState);
