@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import useStockCall from "../../hook/useStockCall";
+import { useEffect } from "react";
 
 const style = {
   position: "absolute",
@@ -19,13 +20,14 @@ const style = {
   p: 4,
 };
 
-export default function FirmModal({ open, handleClose }) {
-    const {createStockData} = useStockCall()
+export default function FirmModal({ open, handleClose, initialState }) {
+  const { createStockData, updateStockData } = useStockCall();
 
   //! Lifting State Up yaptık burada
-  //     const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
+
   const [info, setInfo] = useState({
     name: "",
     address: "",
@@ -34,14 +36,24 @@ export default function FirmModal({ open, handleClose }) {
   });
 
   const handleChange = (e) => {
-    console.log(e);
+    // console.log(e);
     setInfo({ ...info, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    createStockData("firms", info)
+    e.preventDefault();
+    if (info._id) {
+      updateStockData("firms", info);
+    } else {
+      createStockData("firms", info);
+    }
+    handleClose();
   };
+
+  useEffect(() => {
+    setInfo(initialState);
+  }, [initialState]);
+
   return (
     <div>
       <Modal
@@ -95,10 +107,10 @@ export default function FirmModal({ open, handleClose }) {
               onChange={handleChange}
               value={info.image}
             />
+            <Button type="submit" variant="contained" fullWidth>
+              SUBMIT FIRM
+            </Button>
           </Box>
-          <Button type="submit" variant="contained" fullWidth>
-            SUBMIT FIRM
-          </Button>
         </Box>
       </Modal>
     </div>
