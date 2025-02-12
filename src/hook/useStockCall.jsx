@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, stockSuccess } from "../features/stockSlice";
+import { fetchFail, fetchStart, getProCatBrandSuccess, stockSuccess } from "../features/stockSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import useAxios from "./useAxios";
@@ -21,7 +21,6 @@ const useStockCall = () => {
 //           Authorization: `Token ${token}`,
 //         },
 //       });
-//       console.log(data);
 //       dispatch(firmSuccess(data));
 //     } catch (error) {
 //       dispatch(fetchFail());
@@ -80,8 +79,26 @@ const useStockCall = () => {
       dispatch(fetchFail())
     }
   }
+
+//! PROMISE ALL YAPILARI
+//* eş zamanlı istek atma. aynı anda istek atılıyor aynı anda responselar gelmeye başlıyor. Zaman noktasında da avantajlı. En uzun hangi istek sürdüyse veriler ondan sonra valid olur. Birbirine bağımlı isteklerde en büyük avantajı hata durumu. İsteklerden biri bile hatalı olursa hepsi iptal olur.
+  const getProCatBrand=async()=>{
+    dispatch(fetchStart())
+    try {
+      // const [a, b, c] = [2, 4, 6] //? Array Destructure
+
+      const [products, categories, brands] = await Promise.all([
+        axiosWithToken("products"),
+        axiosWithToken("categories"),
+        axiosWithToken("brands")
+      ])
+      dispatch(getProCatBrandSuccess([products?.data?.data, categories?.data?.data, brands?.data?.data]))
+    } catch (error) {
+      dispatch(fetchFail())
+    }
+  }
   
-  return { getStockData, deleteStockData, createStockData, updateStockData };
+  return { getStockData, deleteStockData, createStockData, updateStockData, getProCatBrand };
 };
 
 export default useStockCall;

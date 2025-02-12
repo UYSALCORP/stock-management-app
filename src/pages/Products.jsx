@@ -6,7 +6,7 @@ import useStockCall from "../hook/useStockCall";
 import ProductModal from "../components/Modal/ProductModal"
 
 const Products = () => {
-  const { getStockData } = useStockCall();
+  const { getStockData, getProCatBrand } = useStockCall();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -19,9 +19,10 @@ const Products = () => {
       })
 
   useEffect(() => {
-    getStockData("products");
-    getStockData("brands");
-    getStockData("categories");
+    // getStockData("products");
+    // getStockData("brands");
+    // getStockData("categories");
+    getProCatBrand()
   }, []);
   return (
     <div>
