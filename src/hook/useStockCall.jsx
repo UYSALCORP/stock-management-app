@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, getProCatBrandSuccess, stockSuccess } from "../features/stockSlice";
+import { fetchFail, fetchStart, getProCatBrandSuccess, stockSuccess, getPurcBrandProSuccess, getSalesBrandProSuccess } from "../features/stockSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import useAxios from "./useAxios";
@@ -82,6 +82,7 @@ const useStockCall = () => {
 
 //! PROMISE ALL YAPILARI
 //* eş zamanlı istek atma. aynı anda istek atılıyor aynı anda responselar gelmeye başlıyor. Zaman noktasında da avantajlı. En uzun hangi istek sürdüyse veriler ondan sonra valid olur. Birbirine bağımlı isteklerde en büyük avantajı hata durumu. İsteklerden biri bile hatalı olursa hepsi iptal olur.
+//? Products, Categories, Brands
   const getProCatBrand=async()=>{
     dispatch(fetchStart())
     try {
@@ -97,8 +98,38 @@ const useStockCall = () => {
       dispatch(fetchFail())
     }
   }
+
+//? Purchases, Brand, Products
+  const getPurcBrandPro=async()=>{
+    dispatch(fetchStart())
+    try {
+      const [purchases, brands, products] = await Promise.all([
+        axiosWithToken("purchases"),
+        axiosWithToken("brands"),
+        axiosWithToken("products")
+      ])
+      dispatch(getPurcBrandProSuccess([purchases?.data?.data, brands?.data?.data, products?.data?.data]))
+    } catch (error) {
+      dispatch(fetchFail())
+    }
+  }
+
+//? Brands, Sales, Products
+const getSalesBrandPro=async()=>{
+  dispatch(fetchStart())
+  try {
+    const [sales, brands, products] = await Promise.all([
+      axiosWithToken("sales"),
+      axiosWithToken("brands"),
+      axiosWithToken("products")
+    ])
+    dispatch(getSalesBrandProSuccess([sales?.data?.data, brands?.data?.data, products?.data?.data]))
+  } catch (error) {
+    dispatch(fetchFail())
+  }
+}
   
-  return { getStockData, deleteStockData, createStockData, updateStockData, getProCatBrand };
+  return { getStockData, deleteStockData, createStockData, updateStockData, getProCatBrand, getPurcBrandPro, getSalesBrandPro };
 };
 
 export default useStockCall;

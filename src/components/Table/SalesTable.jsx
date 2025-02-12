@@ -98,7 +98,6 @@ const SalesTable = ({ handleOpen, setInitialState }) => {
     },
   ];
 
-  console.log(sales);
   return (
     <Box sx={{ width: "100%", marginTop: "1rem" }}>
       <DataGrid

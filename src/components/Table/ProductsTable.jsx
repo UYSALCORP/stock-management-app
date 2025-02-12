@@ -12,7 +12,6 @@ const getRowId=(row)=>{
 
 export default function ProductsTable() {
     const {products}=useSelector((state)=>state.stock)
-    // console.log(products)
     const {deleteStockData} = useStockCall
 
     

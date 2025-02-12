@@ -27,7 +27,6 @@ const authSlice = createSlice({
       state.token=payload?.token;
       state.currentUser=payload?.data?.username
       state.loading = false;
-      console.log(payload)
     },
     logoutSuccess: (state) => {
       state.loading=false;

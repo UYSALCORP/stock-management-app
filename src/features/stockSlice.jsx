@@ -33,14 +33,28 @@ const stockSlice = createSlice({
             state.loading = false;
             state.error = false;
           },
+          //! Promise.All() 
           getProCatBrandSuccess:(state, {payload})=>{
-            console.log(payload)
+            state.loading= false
             state.products = payload[0]
             state.categories = payload[1]
             state.brands = payload[2]
+          },
+          getPurcBrandProSuccess:(state, {payload})=>{
+            state.loading= false
+            state.purchases = payload[0]
+            state.brands = payload[1]
+            state.products = payload[2]
+            state.firms = payload[3]
+          },
+          getSalesBrandProSuccess:(state, {payload})=>{
+            state.loading= false
+            state.sales = payload[0].data
+            state.brands = payload[1].data
+            state.products = payload[2].data
           }
     }
 })
 
-export const {fetchFail, fetchStart, stockSuccess, getProCatBrandSuccess} = stockSlice.actions;
+export const {fetchFail, fetchStart, stockSuccess, getProCatBrandSuccess, getPurcBrandProSuccess, getSalesBrandProSuccess} = stockSlice.actions;
 export default stockSlice.reducer;

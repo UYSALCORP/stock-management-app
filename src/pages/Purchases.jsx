@@ -7,10 +7,11 @@ import useStockCall from '../hook/useStockCall'
 import { useEffect } from 'react'
 import PurchasesModal from "../components/Modal/PurchasesModal"
 import { useSelector } from 'react-redux'
+import { getPurcBrandProSuccess } from '../features/stockSlice'
 
 
 const Purchases = () => {
-  const {getStockData}=useStockCall()
+  const {getStockData, getPurcBrandPro}=useStockCall()
   const { loading, error } = useSelector((state) => state.stock);
 
     const [open, setOpen] = useState(false);
@@ -28,9 +29,10 @@ const Purchases = () => {
     
    
   useEffect(()=>{
-    getStockData("purchases")
-    getStockData("brands")
-    getStockData("products")
+    // getStockData("purchases")
+    // getStockData("brands")
+    // getStockData("products")
+    getPurcBrandPro()
   },[])
 
   return (

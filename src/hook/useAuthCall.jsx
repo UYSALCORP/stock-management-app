@@ -14,7 +14,6 @@ const useAuthCall = () => {
         dispatch(fetchStart())
         try {
             const {data} = await axios.post(`${BASE_URL}users/`, userInfo)
-            console.log(data)
             dispatch(registerSuccess(data))
             navigate("/stock")
         } catch (error) {
@@ -37,13 +36,11 @@ const useAuthCall = () => {
     //! LOGİN
     const login = async (userInfo) => {
         dispatch(fetchStart())
-        console.log(userInfo)
         try {
           const { data } = await axios.post(
             `${BASE_URL}auth/login`,
             userInfo
           );
-          console.log("Loginde data",data)
           dispatch(loginSuccess(data))
           navigate("/stock")
         } catch (error) {

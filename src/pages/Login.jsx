@@ -56,7 +56,6 @@ const Login = () => {
             validationSchema={SignupSchema}
             onSubmit={(values, actions) => {
               login(values);
-              console.log(values,"loginiçinde")
               actions.resetForm();
               //! Submit işlemi yapıldı, setSubmitting e.preventDefault()'u yapıyor.
               actions.setSubmitting(false);
