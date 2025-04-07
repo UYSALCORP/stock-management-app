@@ -3,6 +3,7 @@ import { fetchFail, fetchStart, logoutSuccess, registerSuccess, loginSuccess } f
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { toastErrorNotify, toastSuccessNotify } from '../helper/ToastNotify'
 
 const useAuthCall = () => {
     const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const useAuthCall = () => {
         try {
             const {data} = await axios.post(`${BASE_URL}users/`, userInfo)
             dispatch(registerSuccess(data))
+            toastSuccessNotify("Registered Successfully!")
             navigate("/stock")
         } catch (error) {
             dispatch(fetchFail())
@@ -28,6 +30,7 @@ const useAuthCall = () => {
                 Authorization:`Token ${token}`
             }})
             dispatch(logoutSuccess())
+            toastSuccessNotify("Log Outted!")
             navigate("/")
         } catch (error) {
             dispatch(fetchFail())
@@ -42,10 +45,11 @@ const useAuthCall = () => {
             userInfo
           );
           dispatch(loginSuccess(data))
+          toastSuccessNotify("Logined Successfully!")
           navigate("/stock")
         } catch (error) {
             dispatch(fetchFail())
-            
+            toastErrorNotify("Incorrect Username or Password")
         }
       };
   return {register, logout, login}
