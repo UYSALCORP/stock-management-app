@@ -21,7 +21,7 @@ const Login = () => {
       .max(50, "Kullanıcı adı 50 karakterden fazla olamaz")
       .required("Kullanıcı adı zorunludur"),
       password: Yup.string()
-      .required("password zorunludur")
+      .required("Password zorunludur")
   });
   return (
     <Container maxWidth="lg">
