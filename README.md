@@ -8,3 +8,8 @@ Yüklü Olan Paketler
 - formik
 - yup
 - tremor
+
+- ## Demo
+<a href="https://stock-management-app-uysalcorp.netlify.app/" target="_blank">Movie App</a>
+
+**<p align="center">&#9786; Happy Coding &#9997;</p>**
