@@ -20,8 +20,7 @@ const Login = () => {
       .min(5, "Kullanıcı adı 5 karakterden az olamaz")
       .max(50, "Kullanıcı adı 50 karakterden fazla olamaz")
       .required("Kullanıcı adı zorunludur"),
-      password: Yup.string()
-      .required("Password zorunludur")
+    password: Yup.string().required("Password zorunludur"),
   });
   return (
     <Container maxWidth="lg">
@@ -60,13 +59,28 @@ const Login = () => {
               //! Submit işlemi yapıldı, setSubmitting e.preventDefault()'u yapıyor.
               actions.setSubmitting(false);
             }}
-            component={(props) => <LoginForm {...props} />}> </Formik>
-              
+            component={(props) => <LoginForm {...props} />}
+          >
+            {" "}
+          </Formik>
 
           <Box sx={{ textAlign: "center", mt: 2, color: "secondary.main" }}>
-            <Link to="/register">
-              Don't have an account? Sign Up
-            </Link>
+            <Link to="/register">Don't have an account? Sign Up</Link>
+          </Box>
+          <Box>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              align="center"
+              marginTop={2}
+            >
+              {"Copyright © "}
+              <Link color="inherit" href="https://www.github.com/UYSALCORP">
+                UYSALCORP
+              </Link>{" "}
+              {new Date().getFullYear()}
+              {"."}
+            </Typography>
           </Box>
         </Grid>
 
