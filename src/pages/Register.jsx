@@ -34,7 +34,7 @@ const Register = () => {
       .matches(/[a-z]/, "Şifre küçük harf içermelidir")
       .matches(/[A-Z]/, "Şifre büyük harf içermelidir")
       .matches(/\d+/, "Şifre sayısal karakter içermelidir.")
-      .matches(/[@$?!%&*-_]+/, "Özel karakter içermelidir(@$?!%&*)"),
+      .matches(/[@$?!%&*]+/, "Özel karakter içermelidir(@$?!%&*)"),
   });
   return (
     <Container maxWidth="lg">
